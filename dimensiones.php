@@ -1,5 +1,5 @@
 <?php
-    $conn = pg_connect("host=leoviquez.com port=5432 dbname=curso_gis user=gis password=gis") or die('{"error":"Error de conexión con la base de datos"}');
+    $conn = pg_connect("host=localhost port=5434 dbname=ProyectoGis user=postgres password=root") or die('{"error":"Error de conexión con la base de datos"}');
     $result = pg_query($conn, "select 	ST_Xmin(bb) as xmin, 
                                     ST_ymax(bb)*-1 as ymax, 
                                     ST_Xmax(bb)-ST_Xmin(bb) as ancho,
