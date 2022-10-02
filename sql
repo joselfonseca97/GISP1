@@ -30,3 +30,5 @@ update zonasseguras set tipoterreno='Zona verde'
 
 select * from zonasseguras
 select * from rutasevacuacion
+
+alter schema "ProyectoGis" rename to proyectoGis

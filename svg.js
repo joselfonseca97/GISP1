@@ -1,10 +1,11 @@
 function cargar_figura() 
 {
-    fetch('dimensiones.php')
-    .then(response => response.json())
-    .then(data => verMapa('100%', '100%', data));
+    fetch('http://localhost:8080/edificios')
+    .then(response=>console.log(response.json()))
+    //.then(response => response.json())
+    //.then(data=>console.log(data));
+    //.then(data => verMapa('100%', '100%', data));
 }
-
 var test;
 function verMapa(width, height, geometrias) 
 {
@@ -18,7 +19,6 @@ function verMapa(width, height, geometrias)
     crear_path(svg, geometrias.objetos, ancho_proporcional);
 
     document.getElementById("mapa").appendChild(svg);
-
 }
 
 function crearSVG(width, height, dimensiones) {
