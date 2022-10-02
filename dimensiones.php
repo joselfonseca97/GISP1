@@ -1,7 +1,5 @@
 <?php
-    $header('Access-Control-Allow-Origin:* ')
-    $header("Access-Control-Allow-Origin: *");
-    $header("Access-Control-Allow-Headers: *");
+
     $conn = pg_connect("host=localhost port=5432 dbname=ProyectoGis user=postgres password=root") or die('{"error":"Error de conexión con la base de datos"}');
     $result = pg_query($conn, "select 	ST_Xmin(bb) as xmin, 
                                     ST_ymax(bb)*-1 as ymax, 
