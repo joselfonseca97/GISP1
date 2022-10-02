@@ -18,7 +18,6 @@ function verMapa(width, height, geometrias)
     crear_path(svg, geometrias.objetos, ancho_proporcional);
 
     document.getElementById("mapa").appendChild(svg);
-
 }
 
 function crearSVG(width, height, dimensiones) {
