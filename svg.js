@@ -1,30 +1,103 @@
-function cargar_figura() 
+/*Medidas iniciales*/
+var xmin=0;
+var ymax=0;
+var ancho=0;
+var alto=0;
+/*Capas*/
+var datosEdificios={};
+var datosAceras={};
+var datosRutasEvacuacion={};
+var datosVialidad={}
+var datosZonasVerdes={}
+var datosZonasSeguras={}
+
+var showEdificios=true
+
+function test(svgId){
+    if (document.getElementById(svgId).style.display=='none')
+        document.getElementById(svgId).style.display='inline'
+    else
+        document.getElementById(svgId).style.display='none'
+}
+
+function cargarMedidas()
+{
+    fetch('http://localhost:8080/medidas')
+                .then(response=>response.json())
+                .then(data=>verMapa('100%','100%',data))
+}
+/*
+function cargarEdificios() 
 {
     fetch('http://localhost:8080/edificios')
-    .then(response=>console.log(response.json()))
-    //.then(response => response.json())
-    //.then(data=>console.log(data));
-    //.then(data => verMapa('100%', '100%', data));
+        .then(response=>response.json())
+        .then(data=>datosEdificios=data)
 }
-var test;
-function verMapa(width, height, geometrias) 
+
+function cargarAceras() 
 {
-    svg = crearSVG(width, height, geometrias.dimensiones[0])
-    ancho = parseFloat(geometrias.dimensiones[0].ancho)
-    alto = parseFloat(geometrias.dimensiones[0].alto)
-    if (alto > ancho)
-        ancho_proporcional = alto / height;
-    else
-        ancho_proporcional = ancho / width;
-    crear_path(svg, geometrias.objetos, ancho_proporcional);
-
-    document.getElementById("mapa").appendChild(svg);
+    fetch('http://localhost:8080/aceras')
+        .then(response=>response.json())
+        .then(data=>datosAceras=data)
 }
 
-function crearSVG(width, height, dimensiones) {
+function cargarRutasEvacuacion()
+{
+    fetch('http://localhost:8080/rutasEvacuacion')
+    .then(response=>response.json())
+    .then(data=>datosRutasEvacuacion=data)
+}
+
+function cargarVialidad()
+{
+    fetch('http://localhost:8080/vialidad')
+    .then(response=>response.json())
+    .then(data=>datosVialidad=data)
+}
+
+function cargarZonasVerdes()
+{
+    fetch('http://localhost:8080/zonasVerdes')
+    .then(response=>response.json())
+    .then(data=>datosZonasVerdes=data)
+}
+
+function cargarZonasSeguras()
+{
+    fetch('http://localhost:8080/zonasSeguras')
+    .then(response=>response.json())
+    .then(data=>datosZonasSeguras=data)
+}
+*/
+
+/*Orden del json
+    - datos metricos
+    -edificios
+    -aceras
+    -zonas_verdes
+    -zonasSeguras
+    -rutasevacuacion
+    -vialidad
+*/
+function verMapa(width, height,data) 
+{
+    for(var i=1;i<data.length;i++){
+        svg = crearSVG(width, height,data[0],i)
+        ancho = parseFloat(data[0].ancho)
+        alto = parseFloat(data[0].alto)
+        if (alto > ancho)
+            ancho_proporcional = alto / height;
+        else
+            ancho_proporcional = ancho / width;
+        crear_path(svg, data[i], ancho_proporcional,i);
+        document.getElementById("mapa").appendChild(svg);
+    }
+}
+
+function crearSVG(width, height,dimensiones,nombre) { //done
     var xmlns = "http://www.w3.org/2000/svg";
     let o_svg = document.createElementNS(xmlns, "svg");
-    o_svg.setAttribute('id', 'svg');
+    o_svg.setAttribute('id', 'svg'+nombre);
     o_svg.setAttribute('width', width);
     o_svg.setAttribute('height', height);
     vb = dimensiones.xmin + ' ' + dimensiones.ymax + ' ' + dimensiones.ancho + ' ' + dimensiones.alto
@@ -32,7 +105,7 @@ function crearSVG(width, height, dimensiones) {
     return (o_svg)
 }
 
-function crear_path(svg, geometrias, ancho_proporcional) {
+function crear_path(svg, geometrias, ancho_proporcional,nombre) {
     let xmlns = "http://www.w3.org/2000/svg";
     for (geom in geometrias) {
         figura = document.createElementNS(xmlns, "path");
@@ -41,8 +114,8 @@ function crear_path(svg, geometrias, ancho_proporcional) {
         figura.setAttribute("class", "objeto_espacial");
         figura.setAttribute("fill", colorRGB());
         figura.setAttribute("stroke-width", ancho_proporcional);
-        figura.setAttribute("onclick", "mostrarEdificio(" + geometrias[geom].id + ")");
-        svg.appendChild(crear_grupoSVG(figura, geometrias[geom].nombre));
+        figura.setAttribute("onclick", "mostrarEdificio(Edificio de capa" + nombre + ")");
+        svg.appendChild(crear_grupoSVG(figura, "Capa "+nombre));
     }
 }
 

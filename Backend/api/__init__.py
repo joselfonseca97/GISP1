@@ -1,3 +1,3 @@
-from .routes.rutasProyecto import  EdificiosApi,AcerasApi,ZonasVerdesApi,ZonasSegurasApi,RutasEvacuacionApi,VialidadApi
+from .routes.rutasProyecto import  EdificiosApi,AcerasApi,ZonasVerdesApi,ZonasSegurasApi,RutasEvacuacionApi,VialidadApi,MedidasApi
 
 

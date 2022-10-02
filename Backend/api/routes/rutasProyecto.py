@@ -25,3 +25,6 @@ class RutasEvacuacionApi(Resource):
 class VialidadApi(Resource):
     def get(self):
         return controller.getVialidad()
+class MedidasApi(Resource):
+    def get(self):
+        return controller.getMedidas()

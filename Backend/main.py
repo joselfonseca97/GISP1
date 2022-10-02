@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from jsonschema import ValidationError
 
 # Local imports
-from api import EdificiosApi,AcerasApi,ZonasVerdesApi,ZonasSegurasApi,RutasEvacuacionApi,VialidadApi
+from api import EdificiosApi,AcerasApi,ZonasVerdesApi,ZonasSegurasApi,RutasEvacuacionApi,VialidadApi,MedidasApi
 
 
 #from api import UserApi, users_bp
@@ -46,7 +46,8 @@ api.add_resource(ZonasSegurasApi,'/zonasSeguras',endpoint="get_post_zonasSeguras
 api.add_resource(RutasEvacuacionApi,'/rutasEvacuacion',endpoint="get_post_rutasEvacuacion")
 #Vialidad
 api.add_resource(VialidadApi,'/vialidad',endpoint="get_post_vialidad")
-
+#Medidas Iniciales
+api.add_resource(MedidasApi,'/medidas',endpoint="get_post_medidas")
 
 
 @app.route('/')
