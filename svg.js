@@ -1,7 +1,19 @@
-function cargar_figura() 
+async function cargar_figura() 
 {
-    fetch('http://localhost:8080/edificios')
-    .then(response=>console.log(response.json()))
+    try {
+        const response = await fetch('http://localhost:8080/edificios');
+    
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+    
+        const result = await response.json();
+        return result;
+    } catch (err) {
+        console.log(err);
+    }
+    /*await fetch('http://localhost:8080/edificios')
+    .then(response=>console.log(response.json()))*/
     //.then(response => response.json())
     //.then(data=>console.log(data));
     //.then(data => verMapa('100%', '100%', data));
