@@ -1,0 +1,6 @@
+---
+applications:
+ - name: yvy-backend
+ - random-route: true
+ - memory: 192M
+ - timeout: 600

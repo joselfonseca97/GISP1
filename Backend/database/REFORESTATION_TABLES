@@ -1,0 +1,60 @@
+CREATE TABLE IF NOT EXISTS users (
+	user_id VARCHAR(50) PRIMARY KEY,
+	name VARCHAR(90) NOT NULL,
+	phone VARCHAR(25) NOT NULL,
+	country VARCHAR(20) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	password VARCHAR(80) NOT NULL,
+	status VARCHAR(10) NOT NULL,
+	role VARCHAR(10) NOT NULL
+);
+Insert into users(user_id,name,phone,country,email,password,status,role) values ('abc123','TestUser','(506)88888888','cr','josepremium97@gmail.com','$2b$08$yatkibJRTPitS5GHLuW0X.HNPD7cxAyraisz..bs4bA.oZhKCfniq','active','producer')
+CREATE TABLE IF NOT EXISTS refoProjects(
+	project_id SERIAL PRIMARY KEY,
+	name VARCHAR(128) NOT NULL,
+	size DECIMAL NOT NULL,
+	country VARCHAR(20) NOT NULL,
+	startDate DATE NOT NULL,
+	updated DATE NOT NULL,
+	status VARCHAR(15) NOT NULL,
+	lat VARCHAR(32) NOT NULL,
+	lng VARCHAR(32) NOT NULL,
+	user_id VARCHAR(50) REFERENCES users(user_id) NOT NULL	
+);
+
+CREATE TABLE IF NOT EXISTS projectTracing(
+	tracing_id SERIAL PRIMARY KEY,
+	date DATE NOT NULL,
+	terrainType VARCHAR(64) NOT NULL,
+	reforestedArea DECIMAL NOT NULL,
+	terrainElevation INT NOT NULL,
+	ecosystem VARCHAR(64) NOT NULL,
+	reforestedSpecies VARCHAR(264) NOT NULL,
+	soilHumidity DECIMAL NOT NULL,
+	soilDepth DECIMAL NOT NULL,
+	notes VARCHAR(264) NOT NULL,
+	project_id INT REFERENCES refoProjects(project_id) ON DELETE CASCADE NOT NULL
+)
+
+CREATE TABLE IF NOT EXISTS invaders(
+	invader_id SERIAL PRIMARY KEY,
+	name VARCHAR(64) NOT NULL,
+	type VARCHAR(8) NOT NULL,
+	status VARCHAR(64) NOT NULL,
+	controlStatus VARCHAR(64) NOT NULL,
+	affectation DECIMAL NOT NULL,
+	notes VARCHAR(80),
+	project_id INT REFERENCES refoProjects(project_id) ON DELETE CASCADE NOT NULL
+)
+
+CREATE TABLE IF NOT EXISTS invaderTracing(
+	invaderTracing_id SERIAL PRIMARY KEY,
+	name VARCHAR(64) NOT NULL,
+	type VARCHAR(8) NOT NULL,
+	status VARCHAR(64) NOT NULL,
+	controlStatus VARCHAR(64) NOT NULL,
+	affectation DECIMAL NOT NULL,
+	notes VARCHAR(80),
+	projectTracing_id INT REFERENCES projectTracing(tracing_id) ON DELETE CASCADE NOT NULL,
+	invader_id INT REFERENCES invaders(invader_id) ON DELETE CASCADE NOT NULL
+)

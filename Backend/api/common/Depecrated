@@ -1,0 +1,204 @@
+ elif filterType == 'date':
+        dates = filter.split("-")
+        startDate = dates[0]
+        finalDate = dates[1]
+        query = cloudant.query.Query(db,
+                                     selector={"$and": [
+                                         {"date": {"$lt": finalDate}},
+                                         {"date": {"$gt": startDate}}]},
+                                     fields=["_id", "name", "category", "state", "season", "ubication", "date"])
+
+-------------------------------------------------------------------------------------------------
+def get_farms(filter, filterType):
+    db = auth.get_db("farms_db")
+
+    farms = []
+    cont = 0
+    res = {}
+
+    if filterType == 'name':
+        query = cloudant.query.Query(db,
+                                     selector={"name": {"$regex": filter}},
+                                     fields=["_id", "name", "owner", "telephone", "country", "ubication"])
+
+        for doc in query.result:
+            print(doc)
+            farms.append(doc)
+            cont += 1
+
+        res = {
+            "data": farms,
+            "total": cont
+        }
+    elif filterType == 'country':
+        query = cloudant.query.Query(db,
+                                     selector={'country': {"$regex": filter}},
+                                     fields=["_id", "name", "owner", "telephone", "country", "ubication"])
+        for doc in query.result:
+            print(doc)
+            farms.append(doc)
+            cont += 1
+
+        res = {
+            "data": farms,
+            "total": cont
+        }
+    elif filterType == 'id_country':
+        filters = filter.split("-")
+        filter1 = filters[0]
+        user_id = filters[1]
+        query = cloudant.query.Query(db,
+                                     selector={'country': {"$regex": filter1}, 'user_id': {"$eq": user_id}},
+                                     fields=["_id", "name", "owner", "telephone", "country", "ubication"])
+        for doc in query.result:
+            print(doc)
+            farms.append(doc)
+            cont += 1
+
+        res = {
+            "data": farms,
+            "total": cont
+        }
+    elif filterType == 'id_name':
+        filters = filter.split("-")
+        filter1 = filters[0]
+        user_id = filters[1]
+        query = cloudant.query.Query(db,
+                                     selector={'name': {"$regex": filter1}, 'user_id': {"$eq": user_id}},
+                                     fields=["_id", "name", "owner", "telephone", "country", "ubication"])
+        for doc in query.result:
+            print(doc)
+            farms.append(doc)
+            cont += 1
+
+        res = {
+            "data": farms,
+            "total": cont
+        }
+    elif filterType == 'id_all':
+        query = cloudant.query.Query(db,
+                                     selector={'user_id': {"$eq": filter}},
+                                     fields=["_id", "name", "owner", "telephone", "country", "ubication"])
+        for doc in query.result:
+            print(doc)
+            farms.append(doc)
+            cont += 1
+
+        res = {
+            "data": farms,
+            "total": cont
+        }
+    elif filterType == 'name_users':
+        query = cloudant.query.Query(db,
+                                     selector={'name': {"$regex": filter}},
+                                     fields=["user_id"])
+        for doc in query.result:
+            db2 = auth.get_db("user_db")
+            query2 = cloudant.query.Query(db2,
+                                          selector={'_id': {"$regex": doc['user_id']}},
+                                          fields=["_id", "name", "phone", "country", "email", "password", "status",
+                                                  "role"])
+            for doc2 in query2.result:
+                print(doc2)
+                farms.append(doc2)
+
+            cont += 1
+
+        res = {
+            "data": farms,
+            "total": cont
+        }
+    elif filterType == 'all':
+        query = cloudant.query.Query(db,
+                                     selector={"_id": {"$gt": 0}},
+                                     fields=["_id", "name", "owner", "telephone", "country", "ubication"])
+
+        for doc in query.result:
+            print(doc)
+            farms.append(doc)
+            cont += 1
+
+        res = {
+            "data": farms,
+            "total": cont
+        }
+
+    return res
+
+---------------------------------------------------------------------------------------------------
+
+def get_emission_factors(filter, filterType):
+
+
+    emissionFactors = []
+    cont = 0
+    res = {}
+
+    if filterType == 'category':
+        query = cloudant.query.Query(db,
+                                     selector={"category": {"$regex": filter}},
+                                     fields=)
+
+        for doc in query.result:
+            print(doc)
+            emissionFactors.append(doc)
+            cont +=1
+
+        res = {
+            "data": emissionFactors,
+            "total": cont
+        }
+ ---------------------------------------------------------------------------------------------------
+
+    if filterType == 'name':
+        query = cloudant.query.Query(db,
+                                     selector={"name": {"$regex": filter}},
+                                     fields=["_id", "category", "name", "emission_factor", "chemical_formula_id", "unit_of_measurement", "countries", "years"])
+
+        for doc in query.result:
+            print(doc)
+            emissionFactors.append(doc)
+            cont +=1
+
+        res = {
+            "data": emissionFactors,
+            "total": cont
+        }
+    -----------------------applied----------------------------------------------------------------------------
+    if filterType == 'year_country':
+        filters = filter.split("-")
+        year = filters[0]
+        country = filters[1]
+        query = cloudant.query.Query(db,
+                                     selector={"_id": {"$gt": 0}},
+                                     fields=["_id", "category", "name", "emission_factor", "chemical_formula_id", "unit_of_measurement", "countries", "years"])
+
+        for emissioFactor in query.result:
+            for c in emissioFactor['countries']:
+                if c == country:
+                    for y in emissioFactor['years']:
+                        if y == year:
+                            emissionFactors.append(emissioFactor)
+                            cont +=1
+
+        res = {
+            "data": emissionFactors,
+            "total": cont
+        }
+    ---------------------------------------------------------------------------------------------------
+    if filterType == 'all':
+        query = cloudant.query.Query(db,
+                                     selector={"_id": {"$gt": 0}},
+                                     fields=["_id", "category", "name", "emission_factor", "chemical_formula_id", "unit_of_measurement", "countries", "years"])
+
+        for doc in query.result:
+            print(doc)
+            emissionFactors.append(doc)
+            cont +=1
+
+        res = {
+            "data": emissionFactors,
+            "total": cont
+        }
+
+    return res
