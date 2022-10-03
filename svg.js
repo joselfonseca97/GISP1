@@ -1,15 +1,20 @@
 async function cargar_figura() 
 {
     try {
-        const response = await fetch('http://localhost:8080/edificios');
+        const response = await fetch('http://localhost:8080/edificios', {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+          },
+        });
     
-        if (!response.ok) {
+        if (!response.ok) { 
           throw new Error(`Error! status: ${response.status}`);
         }
     
         const result = await response.json();
         return result;
-    } catch (err) {
+      } catch (err) {
         console.log(err);
     }
     /*await fetch('http://localhost:8080/edificios')
