@@ -9,54 +9,68 @@
     <style type="text/css"> 
         svg 
         { 
-            border: 2px solid rgba(107, 107, 107, 0.8); 
+            border: 2px solid rgba(107, 107, 107, 0.8);
+            padding: 10px;
+            width: max-content;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         .objeto_espacial:hover
         {
          
             stroke: yellow;
         }
-        body {
-          margin: 0;
-          font-family: Arial, Helvetica, sans-serif;
+        .main_container{
+          border: 2px solid black;
+          display: flex;
+          height: 100%;
+          width: 70%;
+          position: fixed;
         }
-        
-        .topnav {
-          overflow: hidden;
-          background-color: #333;
+        .sidebar{
+          border: 2px solid blue;
+          z-index: 1;
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: flex;
+          flex-direction: column;
         }
-        
-        .topnav a {
-          float: left;
-          color: #f2f2f2;
-          text-align: center;
-          padding: 14px 16px;
-          text-decoration: none;
-          font-size: 17px;
+        .mapa{
+          height: 95%;
+          width: 55%;
+          position: absolute;
+          top: 0;
+          left: 0;
         }
-        
-        .topnav a:hover {
-          background-color: #ddd;
-          color: black;
+        .btn{
+          cursor: pointer;
+          border-radius: 50;
+          margin: 5px 5px;
         }
-        
-        .topnav a.active {
-          background-color: #04AA6D;
-          color: white;
+        .btn:hover{
+          background-color: red;
         }
     </style>
    <script src="svg.js"></script>
 </head> 
 
-<body onload='cargar_figura()'>
-    <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <a href="#news">News</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
-    </div>
-    <div id=mapa style="text-align: center;">
-    </div>  
+<body onload='cargarMedidas()'>
+  <div class="main_container" >
+    <div id=mapa class="mapa" style="text-align: center;">
+    </div> 
+    <div class="sidebar"> 
+      <button class="btn" id="btnEdificios" onclick="mostrarOcultarCapas('svg6','btnEdificios')">Mostrar/Ocultar Edificios</button>
+      <button class="btn" id="btnVialidad" onclick="mostrarOcultarCapas('svg1','btnVialidad')">Mostrar/Ocultar Red Vial</button>    
+      <button class="btn" id="btnAceras" onclick="mostrarOcultarCapas('svg2','btnAceras')">Mostrar/Ocultar Aceras</button>    
+      <button class="btn" id="btnZonasVerdes" onclick="mostrarOcultarCapas('svg3','btnZonasVerdes')">Mostrar/Ocultar Zonas Verdes</button>    
+      <button class="btn" id="btnZonasSeguras" onclick="mostrarOcultarCapas('svg4','btnZonasSeguras')">Mostrar/Ocultar Zonas Seguras</button>    
+      <button class="btn" id="btnRutasEvacuacion" onclick="mostrarOcultarCapas('svg5','btnRutasEvacuacion')">Mostrar/Ocultar Rutas Evacuacion</button>    
+    </div> 
+  </div>
+    
 </body> 
   
 </html>
