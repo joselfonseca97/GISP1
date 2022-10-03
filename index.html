@@ -13,6 +13,9 @@
             padding: 10px;
             width: max-content;
             height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         .objeto_espacial:hover
         {
@@ -20,19 +23,35 @@
             stroke: yellow;
         }
         .main_container{
-
-          border: 2px solid red;
+          border: 2px solid black;
           display: flex;
           height: 100%;
-          width: 80%;
+          width: 70%;
+          position: fixed;
         }
         .sidebar{
           border: 2px solid blue;
+          z-index: 1;
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: flex;
+          flex-direction: column;
         }
         .mapa{
-          border: 2px solid green;
-          height: 100%;
-          width: 50%;
+          height: 95%;
+          width: 55%;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .btn{
+          cursor: pointer;
+          border-radius: 50;
+          margin: 5px 5px;
+        }
+        .btn:hover{
+          background-color: red;
         }
     </style>
    <script src="svg.js"></script>
@@ -42,9 +61,13 @@
   <div class="main_container" >
     <div id=mapa class="mapa" style="text-align: center;">
     </div> 
-    <div class="sideBar">  
-      <button onclick="test('svg1')">ocultar edificios</button>    
-        <h3>Capa de Edificios</h3>
+    <div class="sidebar"> 
+      <button class="btn" id="btnEdificios" onclick="mostrarOcultarCapas('svg6','btnEdificios')">Mostrar/Ocultar Edificios</button>
+      <button class="btn" id="btnVialidad" onclick="mostrarOcultarCapas('svg1','btnVialidad')">Mostrar/Ocultar Red Vial</button>    
+      <button class="btn" id="btnAceras" onclick="mostrarOcultarCapas('svg2','btnAceras')">Mostrar/Ocultar Aceras</button>    
+      <button class="btn" id="btnZonasVerdes" onclick="mostrarOcultarCapas('svg3','btnZonasVerdes')">Mostrar/Ocultar Zonas Verdes</button>    
+      <button class="btn" id="btnZonasSeguras" onclick="mostrarOcultarCapas('svg4','btnZonasSeguras')">Mostrar/Ocultar Zonas Seguras</button>    
+      <button class="btn" id="btnRutasEvacuacion" onclick="mostrarOcultarCapas('svg5','btnRutasEvacuacion')">Mostrar/Ocultar Rutas Evacuacion</button>    
     </div> 
   </div>
     

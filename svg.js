@@ -13,11 +13,13 @@ var datosZonasSeguras={}
 
 var showEdificios=true
 
-function test(svgId){
+function mostrarOcultarCapas(svgId,elementId){
     if (document.getElementById(svgId).style.display=='none')
         document.getElementById(svgId).style.display='inline'
     else
         document.getElementById(svgId).style.display='none'
+
+    
 }
 
 function cargarMedidas()
@@ -72,12 +74,12 @@ function cargarZonasSeguras()
 
 /*Orden del json
     - datos metricos
-    -edificios
+    -vialidad
     -aceras
     -zonas_verdes
     -zonasSeguras
     -rutasevacuacion
-    -vialidad
+    -edificios
 */
 function verMapa(width, height,data) 
 {
@@ -114,7 +116,7 @@ function crear_path(svg, geometrias, ancho_proporcional,nombre) {
         figura.setAttribute("class", "objeto_espacial");
         figura.setAttribute("fill", colorRGB());
         figura.setAttribute("stroke-width", ancho_proporcional);
-        figura.setAttribute("onclick", "mostrarEdificio(Edificio de capa" + nombre + ")");
+        figura.setAttribute("onclick", "mostrarEdificio(" + geometrias[geom].id + ")");
         svg.appendChild(crear_grupoSVG(figura, "Capa "+nombre));
     }
 }
