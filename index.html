@@ -11,7 +11,7 @@
         { 
             border: 2px solid rgba(107, 107, 107, 0.8);
             padding: 10px;
-            width: max-content;
+            width: 100%;
             height: 100%;
             position: absolute;
             top: 0;
@@ -23,20 +23,35 @@
             stroke: yellow;
         }
         .main_container{
-          border: 2px solid black;
           display: flex;
           height: 100%;
           width: 70%;
           position: fixed;
         }
         .sidebar{
-          border: 2px solid blue;
+          background-color: rgba(227, 230, 228,0.8);
+          border: 1px solid rgba(107, 107, 107, 0.8);
           z-index: 1;
           position: absolute;
-          top: 0;
+          top: 5;
           right: 0;
           display: flex;
           flex-direction: column;
+          height: 50%;
+          width: 30%;
+        }
+        .informacion{
+          background-color: rgba(227, 230, 228,0.8);
+          align-content: center;
+          align-items: center;
+          border: 1px solid rgba(107, 107, 107, 0.8);
+          position: absolute;
+          top: 50%;
+          right: 0;
+          display: flex;
+          flex-direction: column;
+          width: 30%;
+          height: 48%;
         }
         .mapa{
           height: 95%;
@@ -46,31 +61,57 @@
           left: 0;
         }
         .btn{
-          cursor: pointer;
-          border-radius: 50;
+          border-color: rgb(68, 133, 109);
+          color: white;
+          background-color: rgb(98, 179, 150);
+          border-radius: 50px;
           margin: 5px 5px;
         }
-        .btn:hover{
-          background-color: red;
+        .btn:hover:enabled{
+          cursor: pointer;
+          background-color: rgba(98, 179, 150,0.5);
+        }
+        .btn:disabled{
+          background-color: rgba(227, 230, 228,0.5);
+        }
+        .inputInfo{
+          background-color: rgba(227, 230, 228,0.5);
+          margin: 5px 5px;
+          width: 95%;
+          border: 1px black;
+          font-family:Georgia, 'Times New Roman', Times, serif;
+        }
+        .h3{
+          font-family: Georgia, 'Times New Roman', Times, serif;
         }
     </style>
-   <script src="svg.js"></script>
+  <script src="svg.js"></script>
 </head> 
 
 <body onload='cargarMedidas()'>
   <div class="main_container" >
     <div id=mapa class="mapa" style="text-align: center;">
     </div> 
-    <div class="sidebar"> 
-      <button class="btn" id="btnEdificios" onclick="mostrarOcultarCapas('svg6','btnEdificios')">Mostrar/Ocultar Edificios</button>
-      <button class="btn" id="btnVialidad" onclick="mostrarOcultarCapas('svg1','btnVialidad')">Mostrar/Ocultar Red Vial</button>    
-      <button class="btn" id="btnAceras" onclick="mostrarOcultarCapas('svg2','btnAceras')">Mostrar/Ocultar Aceras</button>    
-      <button class="btn" id="btnZonasVerdes" onclick="mostrarOcultarCapas('svg3','btnZonasVerdes')">Mostrar/Ocultar Zonas Verdes</button>    
-      <button class="btn" id="btnZonasSeguras" onclick="mostrarOcultarCapas('svg4','btnZonasSeguras')">Mostrar/Ocultar Zonas Seguras</button>    
-      <button class="btn" id="btnRutasEvacuacion" onclick="mostrarOcultarCapas('svg5','btnRutasEvacuacion')">Mostrar/Ocultar Rutas Evacuacion</button>    
+    <div id="botones" class="sidebar"> 
+      <button  class="btn" id="btnEdificios" onclick="mostrarOcultarCapas('svg6')">Mostrar/Ocultar Edificios</button>
+      <button  class="btn" id="btnVialidad" onclick="mostrarOcultarCapas('svg1')">Mostrar/Ocultar Red Vial</button>    
+      <button  class="btn" id="btnAceras" onclick="mostrarOcultarCapas('svg2')">Mostrar/Ocultar Aceras</button>    
+      <button  class="btn" id="btnZonasVerdes" onclick="mostrarOcultarCapas('svg3')">Mostrar/Ocultar Zonas Verdes</button>    
+      <button  class="btn" id="btnZonasSeguras" onclick="mostrarOcultarCapas('svg4')">Mostrar/Ocultar Zonas Seguras</button>    
+      <button  class="btn" id="btnRutasEvacuacion" onclick="mostrarOcultarCapas('svg5')">Mostrar/Ocultar Rutas Evacuacion</button>    
+      <button  class="btn" id="btnBack" onclick="cargarMedidas()">Regresar</button>
+    </div>
+    <div id="informacion" class="informacion">
+      <h3 class="h2">Edificio</h3>
+      <input class="inputInfo" id="lblNombreEdificio" type="text" readonly="true" value="" style="cursor: unset;"></label>
+      <input class="inputInfo" id="lblNiveles" type="text" readonly="true" value="" style="cursor: unset;"></label>
+      <input class="inputInfo" id="lblAreaEdificio" type="text" readonly="true" value="" style="cursor: unset;"></label>
+      <h3 class="h2">Zona Segura</h3>
+      <input class="inputInfo" id="lblNombreZonaSegura" type="text" readonly="true" value="" style="cursor: unset;"></label>
+      <input class="inputInfo" id="lblCapacidad" type="text" readonly="true" value="" style="cursor: unset;"></label>
+      <input class="inputInfo" id="lblAreaZonaSegura" type="text" readonly="true" value="" style="cursor: unset;"></label>
+      <input class="inputInfo" id="lblTipoTerreno" type="text" readonly="true" value="" style="cursor: unset;"></label>
     </div> 
   </div>
-    
 </body> 
-  
 </html>

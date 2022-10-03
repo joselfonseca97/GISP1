@@ -13,13 +13,8 @@ from dotenv import load_dotenv
 from jsonschema import ValidationError
 
 # Local imports
-from api import EdificiosApi,AcerasApi,ZonasVerdesApi,ZonasSegurasApi,RutasEvacuacionApi,VialidadApi,MedidasApi
-
-
-#from api import UserApi, users_bp
-#from api.schemas.schema_user import POST_SCHEMA, PATCH_SCHEMA
+from api import EdificioApi,MedidasApi
 from api.common.error import buildErrorResponse
-
 
 # Initialize server
 load_dotenv()
@@ -29,31 +24,17 @@ swagger = Swagger(app)
 CORS(app)
 api = Api(app, catch_all_404s=True)
 
-#app.register_blueprint(users_bp)
+# EndPoints
 
-# Routes
+#Get data from specific building
+api.add_resource(EdificioApi,'/edificio/<id>',endpoint="get_post_edificio")
 
-#Edificios
-api.add_resource(EdificiosApi,'/edificios',endpoint="get_post_edificios")
-api.add_resource(EdificiosApi,'/edificios/<id>',endpoint="get_post_edificio")
-#Aceras
-api.add_resource(AcerasApi,'/aceras',endpoint="get_post_aceras")
-#ZonasVerdes
-api.add_resource(ZonasVerdesApi,'/zonasVerdes',endpoint="get_post_zonasVerdes")
-#zonasSeguras
-api.add_resource(ZonasSegurasApi,'/zonasSeguras',endpoint="get_post_zonasSeguras")
-#RutasEvacuacion
-api.add_resource(RutasEvacuacionApi,'/rutasEvacuacion',endpoint="get_post_rutasEvacuacion")
-#Vialidad
-api.add_resource(VialidadApi,'/vialidad',endpoint="get_post_vialidad")
-#Medidas Iniciales
+#Get data for all buildings
 api.add_resource(MedidasApi,'/medidas',endpoint="get_post_medidas")
-
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.errorhandler(400)
 def bad_request(error):

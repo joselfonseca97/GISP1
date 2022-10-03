@@ -1,88 +1,93 @@
-/*Medidas iniciales*/
-var xmin=0;
-var ymax=0;
-var ancho=0;
-var alto=0;
-/*Capas*/
-var datosEdificios={};
-var datosAceras={};
-var datosRutasEvacuacion={};
-var datosVialidad={}
-var datosZonasVerdes={}
-var datosZonasSeguras={}
+//buildings available for details
+const idEdificios=[29,16,6,8,148]
 
-var showEdificios=true
+function showBtns()
+{
+    try{
+        document.getElementById("btnEdificios").removeAttribute('disabled')
+        document.getElementById("btnVialidad").removeAttribute('disabled')
+        document.getElementById("btnAceras").removeAttribute('disabled')
+        document.getElementById("btnZonasVerdes").removeAttribute('disabled')
+        document.getElementById("btnZonasSeguras").removeAttribute('disabled')
+        document.getElementById("btnRutasEvacuacion").removeAttribute('disabled')
+        document.getElementById("btnBack").setAttribute('disabled','disabled')
+    }
+    catch(err){console.log(err)}
+}
+function hideBtns()
+{   
+    document.getElementById("btnEdificios").setAttribute('disabled','disabled')
+    document.getElementById("btnVialidad").setAttribute('disabled','disabled')
+    document.getElementById("btnAceras").setAttribute('disabled','disabled')
+    document.getElementById("btnZonasVerdes").setAttribute('disabled','disabled')
+    document.getElementById("btnZonasSeguras").setAttribute('disabled','disabled')
+    document.getElementById("btnRutasEvacuacion").setAttribute('disabled','disabled')
+    document.getElementById("btnBack").removeAttribute('disabled')
+}
+//request for an specific building (zoom in option)
+function mostrarEdificio(id)
+{
+    if(idEdificios.includes(id))
+    {
+        hideBtns()
+        limpiarMapa();
+        fetch('http://localhost:8080/edificio/'+id)
+        .then(response=>response.json())
+        .then(data=>guardarDatos(data))
+        .then(data=>verMapa('100%','100%',data))
+    }else{
+        alert("No hay informacion disponible para este edificio");
+    }
+}
+//clear all svg within the canvas. Clear details labels
+function limpiarMapa(){
+    parent=document.getElementById('mapa')
+    while(parent.firstChild)
+        parent.removeChild(parent.firstChild);
 
-function mostrarOcultarCapas(svgId,elementId){
+    //edificios
+    document.getElementById('lblNombreEdificio').setAttribute('value','')
+    document.getElementById('lblNiveles').setAttribute('value','')
+    document.getElementById('lblAreaEdificio').setAttribute('value','')
+    //zonasSeguras
+    document.getElementById('lblNombreZonaSegura').setAttribute('value','')
+    document.getElementById('lblCapacidad').setAttribute('value','')
+    document.getElementById('lblAreaZonaSegura').setAttribute('value','')
+    document.getElementById('lblTipoTerreno').setAttribute('value','')
+}
+//show or hide layers
+function mostrarOcultarCapas(svgId){
     if (document.getElementById(svgId).style.display=='none')
         document.getElementById(svgId).style.display='inline'
     else
-        document.getElementById(svgId).style.display='none'
-
-    
+        document.getElementById(svgId).style.display='none' 
 }
-
+//request that gets all layers data from DB
 function cargarMedidas()
 {
+    limpiarMapa()
+    showBtns()
     fetch('http://localhost:8080/medidas')
                 .then(response=>response.json())
                 .then(data=>verMapa('100%','100%',data))
 }
-/*
-function cargarEdificios() 
-{
-    fetch('http://localhost:8080/edificios')
-        .then(response=>response.json())
-        .then(data=>datosEdificios=data)
+//set information labels text
+function guardarDatos(data)
+{   
+    //edificios
+    document.getElementById('lblNombreEdificio').setAttribute('value','Nombre: '+data[1][0].nombre)
+    document.getElementById('lblNiveles').setAttribute('value','Niveles: '+data[1][0].niveles)
+    document.getElementById('lblAreaEdificio').setAttribute('value','Area: '+data[1][0].area)
+    //zonasSeguras
+    document.getElementById('lblNombreZonaSegura').setAttribute('value','Nombre: '+data[2][0].nombre)
+    document.getElementById('lblCapacidad').setAttribute('value','Capacidad: '+data[2][0].capacidad)
+    document.getElementById('lblAreaZonaSegura').setAttribute('value','Area: '+data[2][0].area)
+    document.getElementById('lblTipoTerreno').setAttribute('value','Tipo Terreno: '+data[2][0].tipoterreno)
+    return data;
 }
 
-function cargarAceras() 
-{
-    fetch('http://localhost:8080/aceras')
-        .then(response=>response.json())
-        .then(data=>datosAceras=data)
-}
-
-function cargarRutasEvacuacion()
-{
-    fetch('http://localhost:8080/rutasEvacuacion')
-    .then(response=>response.json())
-    .then(data=>datosRutasEvacuacion=data)
-}
-
-function cargarVialidad()
-{
-    fetch('http://localhost:8080/vialidad')
-    .then(response=>response.json())
-    .then(data=>datosVialidad=data)
-}
-
-function cargarZonasVerdes()
-{
-    fetch('http://localhost:8080/zonasVerdes')
-    .then(response=>response.json())
-    .then(data=>datosZonasVerdes=data)
-}
-
-function cargarZonasSeguras()
-{
-    fetch('http://localhost:8080/zonasSeguras')
-    .then(response=>response.json())
-    .then(data=>datosZonasSeguras=data)
-}
-*/
-
-/*Orden del json
-    - datos metricos
-    -vialidad
-    -aceras
-    -zonas_verdes
-    -zonasSeguras
-    -rutasevacuacion
-    -edificios
-*/
 function verMapa(width, height,data) 
-{
+{   
     for(var i=1;i<data.length;i++){
         svg = crearSVG(width, height,data[0],i)
         ancho = parseFloat(data[0].ancho)
@@ -116,7 +121,8 @@ function crear_path(svg, geometrias, ancho_proporcional,nombre) {
         figura.setAttribute("class", "objeto_espacial");
         figura.setAttribute("fill", colorRGB());
         figura.setAttribute("stroke-width", ancho_proporcional);
-        figura.setAttribute("onclick", "mostrarEdificio(" + geometrias[geom].id + ")");
+        if(nombre==6)
+            figura.setAttribute("onclick", "mostrarEdificio(" + geometrias[geom].id + ")");
         svg.appendChild(crear_grupoSVG(figura, "Capa "+nombre));
     }
 }
@@ -129,11 +135,6 @@ function crear_grupoSVG(svg, descripcion) {
     grupo.appendChild(titulo);
     grupo.appendChild(svg);
     return (grupo)
-}
-
-function mostrarEdificio(id)
-{
-    alert("Soy el edificio id:"+id)
 }
 
 function generarNumero(numero) {
