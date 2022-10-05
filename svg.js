@@ -55,7 +55,7 @@ function limpiarMapa(){
     document.getElementById('lblAreaZonaSegura').setAttribute('value','')
     document.getElementById('lblTipoTerreno').setAttribute('value','')
 }
-//show or hide layers
+//show or hide layers, receives layer unique id
 function mostrarOcultarCapas(svgId){
     if (document.getElementById(svgId).style.display=='none')
         document.getElementById(svgId).style.display='inline'
@@ -87,7 +87,9 @@ function guardarDatos(data)
 }
 
 function verMapa(width, height,data) 
-{   
+{  
+    console.log(data)
+
     for(var i=1;i<data.length;i++){
         svg = crearSVG(width, height,data[0],i)
         ancho = parseFloat(data[0].ancho)
