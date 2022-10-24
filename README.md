@@ -14,6 +14,7 @@
   <li>Vista de las capas desarrolladas en html básico</li>
   <li>BackEnd para las consultas a la base de datos desarrollado en Flask</li>
 </ul>
+
 # Resultados
 Todos los objetivos se cumplieron satisfactoriamente.  
 
