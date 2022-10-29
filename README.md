@@ -1,6 +1,6 @@
 # Proyecto del curso de Sistemas de información geográfica.
 
-# Objetivos
+<h1> Objetivos </h1>
 <ul>
   <li>Crear una base de datos en PostgreSQL que soporte datos de geolocalización</il>
   <li>Se deben de guardar en la base de datos distintas capas(edificios, aceras,vialidad,zonas seguras, rutas de avacuación) geográficas del Instituto Tecnológico de Costa Rica, Sede San Carlos</li>
