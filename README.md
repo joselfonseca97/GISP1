@@ -17,8 +17,3 @@
 
 # Resultados
 Todos los objetivos se cumplieron satisfactoriamente.  
-
-- [x] Primero  
-- [ ] Segundo  
-- [ ] Tercero  
-
